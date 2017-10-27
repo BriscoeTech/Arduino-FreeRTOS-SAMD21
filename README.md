@@ -32,8 +32,8 @@ Tested Boards:
  
  Why? The RTOS is using the same hardware timer as these functions, and I have not figured out yet how to either
 	1) Scale down the clock initialized by the rtos
-	2) Have the rtos use a different timer as the rtos tick
-	2) overload the origional functions with new functions that automatically scale it down by 10
+	2) Have the rtos use a different timer for the rtos tick that's not shared with any arduino functions
+	2) overload the original functions with new functions that automatically scale it down by 10
 
 If you figure out how to do this, let me know!
 
