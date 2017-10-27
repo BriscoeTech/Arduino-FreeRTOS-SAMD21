@@ -63,17 +63,17 @@ void errorBlink(int errorNumber)
   for(int x=0; x<errorNumber; ++x)
   {
     digitalWrite(ErrorLed_Pin,  ErrorLed_ActiveState);   
-    nopDelayMS(100);
+    vNopDelayMS(100);
     digitalWrite(ErrorLed_Pin, !ErrorLed_ActiveState);
-    nopDelayMS(100);   
+    vNopDelayMS(100);   
   }
 
-  nopDelayMS(1000);
+  vNopDelayMS(1000);
 }
 
 // will delay the processors using nops
 // this is used when the rtos has crashed and we cannot use more advanced timing
-void nopDelayMS(unsigned long millis) 
+void vNopDelayMS(unsigned long millis) 
 {
   unsigned long iterations = millis * CAL_FACTOR;
   unsigned long i;

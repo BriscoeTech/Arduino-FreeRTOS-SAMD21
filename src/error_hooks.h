@@ -39,7 +39,7 @@
 	
 	// will delay the processors using nops
 	// this is used when the rtos has crashed and we cannot use more advanced timing
-	void nopDelayMS(unsigned long millis);
+	void vNopDelayMS(unsigned long millis);
 	
 
 #endif
