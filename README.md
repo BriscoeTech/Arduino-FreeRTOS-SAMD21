@@ -4,10 +4,6 @@ This library will allow you to create FreeRtos Projects in the arduino IDE and r
 
 
 
-
-
-
-
 ***************************************************************************************************************
 Tested Boards:
  Sparkfun Samd21 Mini
@@ -16,26 +12,6 @@ Tested Boards:
  Atmel Xplained Samd21
 
  
- 
- 
- 
- 
- 
- 
- 
- 
- ***************************************************************************************************************
- Known Issue:
- 
- Millis() and Micros() are incorrect, they are off by a factor of 10. For correct timing, you need to divide the
- the values returned from these functions by 10.
- 
- Why? The RTOS is using the same hardware timer as these functions, and I have not figured out yet how to either
-	1) Scale down the clock initialized by the rtos
-	2) Have the rtos use a different timer for the rtos tick that's not shared with any arduino functions
-	2) overload the original functions with new functions that automatically scale it down by 10
-
-If you figure out how to do this, let me know!
 
 ***************************************************************************************************************
 Nice To Have:
