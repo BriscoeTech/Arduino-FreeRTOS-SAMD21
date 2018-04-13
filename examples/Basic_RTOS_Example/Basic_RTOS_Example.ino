@@ -6,7 +6,7 @@
 // Project can be used as a template to build your projects off of as well
 //**************************************************************************
 
-#include <FreeRTOS.h> //samd21
+#include <FreeRTOS_SAMD21.h> //samd21
 
 //**************************************************************************
 // Type Defines and Constants
