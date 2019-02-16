@@ -111,9 +111,9 @@ extern "C" {
 #include "queue.h"
 #include "semphr.h"
 
-#if( configUSE_MALLOC_FAILED_HOOK > 0 )
-	void vApplicationMallocFailedHook(void);
-#endif
+//#if( configUSE_MALLOC_FAILED_HOOK > 0 )
+//	void vApplicationMallocFailedHook(void);
+//#endif
 
 /*
  * Check all the required application specific macros have been defined.
