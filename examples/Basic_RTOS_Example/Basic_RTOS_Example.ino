@@ -54,12 +54,13 @@ void myDelayMsUntil(TickType_t *previousWakeTime, int ms)
 //*****************************************************************
 static void threadA( void *pvParameters ) 
 {
+  
   SERIAL.println("Thread A: Started");
-  myDelayMs(2000);
-  SERIAL.println("A");
-  myDelayMs(2000);
-  SERIAL.println("A");
-  myDelayMs(2000);
+  for(int x=0; x<20; ++x)
+  {
+    SERIAL.print("A");
+    myDelayMs(500);
+  }
   
   // delete ourselves.
   // Have to call this or the system crashes when you reach the end bracket and then get scheduled.
@@ -78,7 +79,7 @@ static void threadB( void *pvParameters )
   while(1)
   {
     SERIAL.println("B");
-    myDelayMs(1000);
+    myDelayMs(2000);
   }
 
 }
@@ -131,7 +132,7 @@ void taskMonitor(void *pvParameters)
 
 void setup() 
 {
-  
+
   SERIAL.begin(115200);
 
   vNopDelayMS(1000); // prevents usb driver crash on startup, do not omit this
