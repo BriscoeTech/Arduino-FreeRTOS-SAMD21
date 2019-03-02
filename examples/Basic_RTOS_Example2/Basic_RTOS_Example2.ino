@@ -4,6 +4,9 @@
 //
 // Project is a simple example of how to get FreeRtos running on a SamD21 processor
 // Project can be used as a template to build your projects off of as well
+//
+// This example uses the MemoryFree library by mpflaga, to show how much heap is being used by the rtos and all global objects
+// https://github.com/mpflaga/Arduino-MemoryFree
 //**************************************************************************
 
 #include <FreeRTOS_SAMD21.h> //samd21
