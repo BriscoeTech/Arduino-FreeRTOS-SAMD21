@@ -5,10 +5,17 @@
 
 ***************************************************************************************************************
 Tested Boards:  
- Sparkfun Samd21 Mini  
- Sparkfun Samd21 Dev  
- Adafruit Feather M0  
- Atmel Xplained Samd21  
- 
- 
- 
+Sparkfun Samd21 Mini  
+Sparkfun Samd21 Dev  
+Adafruit Feather M0  
+Atmel Xplained Samd21  
+
+
+***************************************************************************************************************
+
+#### How to wrap malloc/free/realloc/calloc system functions
+If you want wrap the `malloc`, `free`, `realloc` and `calloc` system functions with those provided by FreeRTOS, simply use the *--wrap* option passed to the gcc linker, by appending the following line to the `compiler.ldflags=` line of the [**platform.txt**](https://github.com/arduino/ArduinoCore-samd/blob/master/platform.txt) file:
+
+```
+-Wl,--wrap=malloc -Wl,--wrap=free -Wl,--wrap=calloc -Wl,--wrap=realloc
+```
