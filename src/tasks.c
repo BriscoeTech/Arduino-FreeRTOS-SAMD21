@@ -3370,6 +3370,17 @@ TCB_t *pxTCB;
 }
 /*-----------------------------------------------------------*/
 
+unsigned portBASE_TYPE pxGetCurrentTaskNumber( void )
+{
+unsigned portBASE_TYPE uxNumber;
+
+    portENTER_CRITICAL();
+        uxNumber = pxCurrentTCB->uxTCBNumber;
+    portEXIT_CRITICAL();
+
+    return uxNumber;
+}
+
 #if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_MUTEXES == 1 ) )
 
 	TaskHandle_t xTaskGetCurrentTaskHandle( void )
