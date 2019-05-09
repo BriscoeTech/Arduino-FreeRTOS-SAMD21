@@ -3381,6 +3381,17 @@ unsigned portBASE_TYPE uxNumber;
     return uxNumber;
 }
 
+unsigned portBASE_TYPE pxGetCurrentTaskPriority( void )
+{
+unsigned portBASE_TYPE uxPriority;
+
+    portENTER_CRITICAL();
+        uxPriority = pxCurrentTCB->uxPriority;
+    portEXIT_CRITICAL();
+
+    return uxPriority;
+}
+
 #if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_MUTEXES == 1 ) )
 
 	TaskHandle_t xTaskGetCurrentTaskHandle( void )
