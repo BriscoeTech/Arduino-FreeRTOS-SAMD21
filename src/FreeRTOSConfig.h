@@ -1,6 +1,3 @@
-/* This has been copied then modified from
- * FreeRTOS/Demo/CORTEX_M0+_Atmel_SAMD20_XPlained/RTOSDemo/src/config/FreeRTOSConfig.h
- */
 #ifndef FREERTOS_CONFIG_H_PREAMBLE
 #define FREERTOS_CONFIG_H_PREAMBLE
 
@@ -8,7 +5,9 @@
 
 #endif /*FREERTOS_CONFIG_H_PREAMBLE*/
 
-
+/* This has been copied then modified from
+ * FreeRTOS/Demo/CORTEX_M0+_Atmel_SAMD20_XPlained/RTOSDemo/src/config/FreeRTOSConfig.h
+ */
 /*
  * FreeRTOS Kernel V10.2.1
  * Copyright (C) 2019 Amazon.com, Inc. or its affiliates.  All Rights Reserved.

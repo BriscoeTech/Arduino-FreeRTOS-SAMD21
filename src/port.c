@@ -177,7 +177,6 @@ void (*rtosSysTick_Handler)(void);
 int sysTickHook(void) {
     if (rtosSysTick_Handler)
         rtosSysTick_Handler();
-    // TODO -- should we call SysTick_DefaultHandler here, so that millis() increments?
     return 0; // return zero to keep running the arduino default handler!
 }
 
