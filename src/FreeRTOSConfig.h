@@ -87,11 +87,11 @@
 #define configUSE_PREEMPTION			1
 #define configUSE_IDLE_HOOK				1
 #define configUSE_TICK_HOOK				0
-#define configCPU_CLOCK_HZ				( ( unsigned long ) 48000000 )
+#define configCPU_CLOCK_HZ				( ( unsigned long ) F_CPU  )
 #define configTICK_RATE_HZ				( ( TickType_t ) 1000 )
 #define configMAX_PRIORITIES			( 9 )
 #define configMINIMAL_STACK_SIZE		( ( unsigned short ) 150 )
-#define configTOTAL_HEAP_SIZE			( ( size_t ) ( 12 * 1024 ) )
+#define configTOTAL_HEAP_SIZE			( ( size_t ) ( 24 * 1024 ) )
 #define configMAX_TASK_NAME_LEN			( 8 )
 #define configUSE_TRACE_FACILITY		1
 #define configUSE_16_BIT_TICKS			0
@@ -103,6 +103,7 @@
 #define configUSE_APPLICATION_TASK_TAG	0
 #define configUSE_COUNTING_SEMAPHORES	1
 #define configUSE_QUEUE_SETS			1
+#define configSUPPORT_DYNAMIC_ALLOCATION 1
 
 /* Run time stats related definitions. */
 //void vMainConfigureTimerForRunTimeStats( void );
