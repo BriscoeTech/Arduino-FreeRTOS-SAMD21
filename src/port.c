@@ -102,7 +102,7 @@ debugger. */
 
 /* Each task maintains its own interrupt status in the critical nesting
 variable. */
-static UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
+static UBaseType_t uxCriticalNesting = 0x0; //orginal: 0xaaaaaaaa
 
 /*
  * Setup the timer to generate the tick interrupts.

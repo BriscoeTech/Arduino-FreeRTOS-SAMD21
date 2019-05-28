@@ -1940,6 +1940,16 @@ void vTaskSwitchContext( void ) PRIVILEGED_FUNCTION;
 TickType_t uxTaskResetEventItemValue( void ) PRIVILEGED_FUNCTION;
 
 /*
+ * Return the id number of the running task 
+ */
+unsigned portBASE_TYPE pxGetCurrentTaskNumber( void ) PRIVILEGED_FUNCTION;
+
+/*
+ * Return the priority of the running task
+ */
+unsigned portBASE_TYPE pxGetCurrentTaskPriority( void )PRIVILEGED_FUNCTION;
+
+/*
  * Return the handle of the calling task.
  */
 TaskHandle_t xTaskGetCurrentTaskHandle( void ) PRIVILEGED_FUNCTION;
