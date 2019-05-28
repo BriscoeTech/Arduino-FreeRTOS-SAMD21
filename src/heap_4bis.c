@@ -150,8 +150,8 @@ static size_t xBlockAllocatedBit = 0;
 
 void *pvPortMalloc( size_t xWantedSize )
 {
-BlockLink_t *pxBlock, *pxPreviousBlock, *pxNewBlockLink;
-void *pvReturn = NULL;
+	BlockLink_t *pxBlock, *pxPreviousBlock, *pxNewBlockLink;
+	void *pvReturn = NULL;
 
 	vTaskSuspendAll();
 	{
@@ -300,8 +300,8 @@ void *pvReturn = NULL;
 
 void vPortFree( void *pv )
 {
-uint8_t *puc = ( uint8_t * ) pv;
-BlockLink_t *pxLink;
+	uint8_t *puc = ( uint8_t * ) pv;
+	BlockLink_t *pxLink;
 
 	if( pv != NULL )
 	{
