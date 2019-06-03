@@ -4,7 +4,7 @@
 
 
 ***************************************************************************************************************
-Tested Boards:  
+#### Tested Boards:  
  Sparkfun Samd21 Mini  
  Sparkfun Samd21 Dev  
  Adafruit Feather M0  
@@ -12,12 +12,13 @@ Tested Boards:
  
 ***************************************************************************************************************
 
-#### How to wrap malloc/free/realloc/calloc system functions
-If you want wrap the `malloc`, `free`, `realloc` and `calloc` system functions with those provided by FreeRTOS, simply use the *--wrap* option passed to the gcc linker, by appending the following line to the `compiler.ldflags=` line of the [**platform.txt**](https://github.com/arduino/ArduinoCore-samd/blob/master/platform.txt) file:
+#### Optional Feature: Wrapped Memmory Functions. 
 
-```
--Wl,--wrap=malloc -Wl,--wrap=free -Wl,--wrap=calloc -Wl,--wrap=realloc
-```
+This linker setting change will allow all microcontroller malloc/free/realloc/calloc 
+operations to be managed by FreeRtos. This could eliminate memory corruption issues on
+c++ intensive projects, or projects that might be fragmenting the heap.
+
+Implementation Guide can be found in: "wrapping memory functions\platform.local.txt"
 
  
  

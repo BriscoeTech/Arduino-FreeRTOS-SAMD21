@@ -1,0 +1,49 @@
+#######################################################################
+# For wrapping freertos malloc/free/realloc/calloc functions
+#######################################################################
+# Description:
+
+# This linker setting change will allow all microcontroller malloc/free/realloc/calloc 
+# operations to be managed by FreeRtos. This could eliminate memory corruption issues on
+# c++ intensive projects, or projects that might be fragmenting the heap.
+
+#######################################################################
+# Setup Arduino IDE:
+
+# Copy this file (platform.local.txt) to the same directory as the already existing platform.txt file you want to override with these compiler settings.
+
+# Example: To add this feature to a sparkfun samd21 board, put the file in this location
+# C:\Users\UserName\AppData\Local\Arduino15\packages\SparkFun\hardware\samd\1.5.4
+
+# Example: To add this feature to a adafruit m0 board, put the file in this location
+# C:\Users\UserName\AppData\Local\Arduino15\packages\adafruit\hardware\samd\1.2.9
+
+#######################################################################
+# Setup Sloaber IDE:
+
+# If using Sloaber Ide, the platform.local.txt file is not implemented or recognised.
+# Follow the manual setup section instead.
+
+#######################################################################
+# Setup Manual:
+
+# If you want wrap the `malloc`, `free`, `realloc` and `calloc` system functions with those provided by FreeRTOS, simply use the *--wrap* option 
+# passed to the gcc linker, by appending the following line to the `compiler.ldflags=` line of the [**platform.txt**](https://github.com/arduino/ArduinoCore-samd/blob/master/platform.txt) file:
+# -Wl,--wrap=malloc -Wl,--wrap=free -Wl,--wrap=calloc -Wl,--wrap=realloc
+
+
+#######################################################################
+# Compiling Non FreeRtos Arduino Projects
+
+# These compiler flags will only work for FreeRtos arduino projects. Compiling a basic (Non FreeRtos) arduino project will give you compiler errors saying:
+undefined reference to `__wrap_malloc'
+undefined reference to `__wrap_free'
+
+# In order to compile a normal arduino project again:
+#      A) Remove or rename platform.local.txt. I usually rename it to platform.local.txt.disabled so I can turn the feature back on at a later date.
+#      B) If you performed manual setup, remove the added linker options.
+
+#######################################################################
+# Override compiler setting 
+
+compiler.ldflags=-mcpu={build.mcu} -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -Wl,--wrap=malloc -Wl,--wrap=free -Wl,--wrap=calloc -Wl,--wrap=realloc
