@@ -21,11 +21,11 @@ void rtosFatalError(void)
   }
 }
 
-// called on empty heap space
+// called on full heap or malloc failure
 void vApplicationMallocFailedHook(void) 
 {
 
-  //Serial.println("Maloc Failed");
+  //Serial.println("Malloc Failed");
   
   while (1)
   {
@@ -33,7 +33,7 @@ void vApplicationMallocFailedHook(void)
   }
 }
 
-// called on empty stack
+// called on full stack
 void vApplicationStackOverflowHook( TaskHandle_t xTask, char *pcTaskName )
 {
 

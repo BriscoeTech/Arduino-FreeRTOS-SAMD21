@@ -89,8 +89,8 @@ static void threadB( void *pvParameters )
 }
 
 //*****************************************************************
-// Task will periodicallt print out usefull information about the tasks running
-// Is a usefull tool to help figure out stack sizes being used
+// Task will periodicallt print out useful information about the tasks running
+// Is a useful tool to help figure out stack sizes being used
 //*****************************************************************
 void taskMonitor(void *pvParameters)
 {
@@ -159,7 +159,7 @@ void setup()
   // RTOS also Needs to know if high/low is the state that turns on the led.
   // Error Blink Codes:
   //    3 blinks - Fatal Rtos Error, something bad happened. Think really hard about what you just changed.
-  //    2 blinks - Malloc Failed, Happens when you couldnt create a rtos object. 
+  //    2 blinks - Malloc Failed, Happens when you couldn't create a rtos object. 
   //               Probably ran out of heap.
   //    1 blink  - Stack overflow, Task needs more bytes defined for its stack! 
   //               Use the taskMonitor thread to help gauge how much more you need
