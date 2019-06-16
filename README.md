@@ -8,7 +8,9 @@
  Sparkfun Samd21 Mini  
  Sparkfun Samd21 Dev  
  Adafruit Feather M0  
- Atmel Xplained Samd21  
+ Adafruit Itsy Bitsy M4
+ Atmel Xplained Samd21 
+
  
 ***************************************************************************************************************
 
