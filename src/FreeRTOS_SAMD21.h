@@ -8,7 +8,7 @@
 	#include <FreeRTOS.h>
 	#include <timers.h>
 	#include <task.h>
-	#include <StackMacros.h>
+	#include <stack_macros.h>
 	#include <semphr.h>
 	#include <queue.h>
 	#include <projdefs.h>
@@ -21,6 +21,8 @@
 	#include <error_hooks.h>
 	#include <deprecated_definitions.h>
 	#include <croutine.h>
+	#include <message_buffer.h>
+	#include <stream_buffer.h>
 
 
 #endif
