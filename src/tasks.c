@@ -1559,7 +1559,7 @@ BaseType_t xReturn;
 	#if ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
 	{
         #if ( configUSE_IDLE_HOOK == 0)
-        xTaskCreate(loopTask, "loop", 512, ( void * ) NULL, ( tskIDLE_PRIORITY | portPRIVILEGE_BIT ), NULL);
+        xTaskCreate(loopTask, "loop", 256, ( void * ) NULL, ( tskIDLE_PRIORITY | portPRIVILEGE_BIT ), NULL);
         #endif
 		/* Create the idle task, storing its handle in xIdleTaskHandle so it can
 		be returned by the xTaskGetIdleTaskHandle() function. */
