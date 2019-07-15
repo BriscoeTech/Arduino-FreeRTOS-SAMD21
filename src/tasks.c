@@ -1540,17 +1540,6 @@ StackType_t *pxTopOfStack;
 #endif /* ( ( INCLUDE_xTaskResumeFromISR == 1 ) && ( INCLUDE_vTaskSuspend == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-// this is referring to the loop function of your arduino project
-extern void loop(void);
-
-void loopTask(void *pvParameters)
-{
-    while(1)
-    {
-        loop();
-    }
-}
-
 void vTaskStartScheduler( void )
 {
 BaseType_t xReturn;
@@ -1558,9 +1547,6 @@ BaseType_t xReturn;
 	/* Add the idle task at the lowest priority. */
 	#if ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
 	{
-        #if ( configUSE_IDLE_HOOK == 0)
-        xTaskCreate(loopTask, "loop", 256, ( void * ) NULL, ( tskIDLE_PRIORITY | portPRIVILEGE_BIT ), NULL);
-        #endif
 		/* Create the idle task, storing its handle in xIdleTaskHandle so it can
 		be returned by the xTaskGetIdleTaskHandle() function. */
 		xReturn = xTaskCreate( prvIdleTask, "IDLE", tskIDLE_STACK_SIZE, ( void * ) NULL, ( tskIDLE_PRIORITY | portPRIVILEGE_BIT ), &xIdleTaskHandle ); /*lint !e961 MISRA exception, justified as it is not a redundant explicit cast to all supported compilers. */
