@@ -75,12 +75,9 @@ void errorBlink(int errorNumber)
 // this is used when the rtos has crashed and we cannot use more advanced timing
 void vNopDelayMS(unsigned long millis) 
 {
-  unsigned long iterations = millis * CAL_FACTOR;
-  unsigned long i;
-  for(i = 0; i < iterations; ++i) 
-  {
-    asm volatile("nop\n\t");
-  }
+	// use the built in arduino delay
+	// this implements noop commands and directly timed right for selected processor
+	delay(millis);
 }
 
 //************************************************************************

@@ -1,36 +1,24 @@
 
-
 #include <Arduino.h>
 #include "FreeRTOS.h"
 #include "task.h"
 
-
 #ifndef ERROR_HOOKS_H
 #define ERROR_HOOKS_H
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 	//**************************************************
 	// defines
 	//**************************************************
 
-	// calibration factor for vNopDelayMS
-	// used to set accuracy of nopDelayMS function
-	#if defined (__SAMD21G18A__)
-		// this was experimentally chosen from a samd21 processor at 32khz
-		#define CAL_FACTOR (F_CPU/6000)
-	#elif defined (__SAMD51__)
-		// assuming same architecture noop delay as samd21 for now, need to test
-		#define CAL_FACTOR (F_CPU/6000)
-	#else
-		#error Processor architecture not recognized in FreeRtos error_hooks.h, may need to define CAL_FACTOR for this processor.
-	#endif
 
 	//**************************************************
 	// function prototypes
 	//**************************************************
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 	// called on fatal error (interrupts disabled already)
 	void rtosFatalError(void);

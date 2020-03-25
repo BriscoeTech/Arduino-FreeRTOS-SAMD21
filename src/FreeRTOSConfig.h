@@ -52,8 +52,8 @@
 #define configTICK_RATE_HZ				( ( TickType_t ) 1000 )
 #define configMAX_PRIORITIES			( 9 )
 #define configMINIMAL_STACK_SIZE		( ( unsigned short ) 150 )
-#define configTOTAL_HEAP_SIZE			( ( size_t ) ( 12 * 1024 ) )
-#define configMAX_TASK_NAME_LEN			( 8 )
+#define configTOTAL_HEAP_SIZE			( ( size_t ) ( 15 * 1024 ) )
+#define configMAX_TASK_NAME_LEN			( 16 ) //includes string null terminator
 #define configUSE_TRACE_FACILITY		1
 #define configUSE_16_BIT_TICKS			0
 #define configIDLE_SHOULD_YIELD			1
@@ -64,14 +64,15 @@
 #define configUSE_APPLICATION_TASK_TAG	0
 #define configUSE_COUNTING_SEMAPHORES	1
 #define configUSE_QUEUE_SETS			1
+#define configSUPPORT_STATIC_ALLOCATION 0
 #define configSUPPORT_DYNAMIC_ALLOCATION 1
 
 /* Run time stats related definitions. */
-//void vMainConfigureTimerForRunTimeStats( void );
-unsigned long ulMainGetRunTimeCounterValue( void );
-#define configGENERATE_RUN_TIME_STATS	0
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS() //vMainConfigureTimerForRunTimeStats()
-#define portGET_RUN_TIME_COUNTER_VALUE() ulMainGetRunTimeCounterValue()
+#define configGENERATE_RUN_TIME_STATS	1
+
+/* Arduino framework integration */
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS() 	vMainConfigureTimerForRunTimeStats() // see runTimeStats_hooks.h
+#define portGET_RUN_TIME_COUNTER_VALUE() 			ulMainGetRunTimeCounterValue() // see runTimeStats_hooks.h
 
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES 			0
@@ -110,7 +111,7 @@ FreeRTOS/Source/tasks.c for limitations. */
 header file. */
 
 /* Arduino framework integration */
-extern void rtosFatalError(void);
+extern void rtosFatalError(void); // see error_hooks.h
 #define configASSERT( x ) \
 	if( ( x ) == 0 ) { taskDISABLE_INTERRUPTS(); rtosFatalError(); }
 

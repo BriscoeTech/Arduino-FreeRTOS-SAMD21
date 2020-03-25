@@ -1,6 +1,6 @@
-###  FreeRTOS V10.2.1 for Arduino Samd21\Samd51 Boards
+###  FreeRTOS V10.2.1 for Arduino Samd21
 
-####  This library will allow you to create FreeRtos Projects in the arduino IDE and run them on your Samd21 or Samd51 boards.
+####  This library will allow you to create FreeRtos Projects in the arduino IDE and run them on your Samd21 boards.
 
 
 ***************************************************************************************************************
@@ -8,7 +8,6 @@
  Sparkfun Samd21 Mini
  Sparkfun Samd21 Dev
  Adafruit Feather M0
- Adafruit Itsy Bitsy M4
  Atmel Xplained Samd21
 
 

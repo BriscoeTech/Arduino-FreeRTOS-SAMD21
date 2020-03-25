@@ -4,9 +4,10 @@
 //
 // Project is a simple example of how to get FreeRtos running on a SamD21 processor
 // Project can be used as a template to build your projects off of as well
+//
 //**************************************************************************
 
-#include <FreeRTOS_SAMD21.h> //samd21
+#include <FreeRTOS_SAMD21.h>
 
 //**************************************************************************
 // Type Defines and Constants
@@ -18,20 +19,22 @@
 #define ERROR_LED_LIGHTUP_STATE  LOW // the state that makes the led light up on your board, either low or high
 
 // Select the serial port the project should use and communicate over
-// Sombe boards use SerialUSB, some use Serial
-#define SERIAL          SerialUSB
-//#define SERIAL          Serial
+// Some boards use SerialUSB, some use Serial
+#define SERIAL          SerialUSB //Sparkfun Samd21 Boards
+//#define SERIAL          Serial //Adafruit, other Samd21 Boards
 
 //**************************************************************************
 // global variables
 //**************************************************************************
 TaskHandle_t Handle_aTask;
 TaskHandle_t Handle_bTask;
+TaskHandle_t Handle_cTask;
 TaskHandle_t Handle_monitorTask;
 
 //**************************************************************************
 // Can use these function for RTOS delays
-// Takes into account procesor speed
+// Takes into account processor speed
+// Use these instead of delay(...) in rtos tasks
 //**************************************************************************
 void myDelayUs(int us)
 {
@@ -56,7 +59,7 @@ static void threadA( void *pvParameters )
 {
   
   SERIAL.println("Thread A: Started");
-  for(int x=0; x<20; ++x)
+  for(int x=0; x<100; ++x)
   {
     SERIAL.print("A");
     myDelayMs(500);
@@ -85,9 +88,36 @@ static void threadB( void *pvParameters )
 }
 
 //*****************************************************************
-// Task will periodicallt print out useful information about the tasks running
+// Create a thread that just crunches alot of numbers
+// This thread should eat up a noticeable amount of processor time
+// this task will run forever
+//*****************************************************************
+static void threadC( void *pvParameters )
+{
+  SERIAL.println("Thread C: Started");
+  long variable;
+
+  while(1)
+  {
+	// do a whole bunch of math
+	// eat up alot of cpu time
+    for(int x=0; x<32000; ++x)
+    {
+    	variable += x;
+    }
+
+    // sleep for a very short time, will enable other threads and idle loop to run
+    myDelayMs(10);
+  }
+
+}
+
+//*****************************************************************
+// Task will periodically print out useful information about the tasks running
 // Is a useful tool to help figure out stack sizes being used
 //*****************************************************************
+static char ptrTaskList[400]; //temporary string bufer for task stats
+
 void taskMonitor(void *pvParameters)
 {
     int x;
@@ -96,28 +126,56 @@ void taskMonitor(void *pvParameters)
     SERIAL.println("Task Monitor: Started");
 
     // run this task afew times before exiting forever
-    for(x=0; x<10; ++x)
+    while(1)
     {
+    	myDelayMs(10000); // print every 10 seconds
 
-      SERIAL.println("");
-      SERIAL.println("******************************");
-      SERIAL.println("[Stacks Free Bytes Remaining] ");
 
-      measurement = uxTaskGetStackHighWaterMark( Handle_aTask );
-      SERIAL.print("Thread A: ");
-      SERIAL.println(measurement);
-      
-      measurement = uxTaskGetStackHighWaterMark( Handle_bTask );
-      SERIAL.print("Thread B: ");
-      SERIAL.println(measurement);
-      
-      measurement = uxTaskGetStackHighWaterMark( Handle_monitorTask );
-      SERIAL.print("Monitor Stack: ");
-      SERIAL.println(measurement);
 
-      SERIAL.println("******************************");
+    	SERIAL.println("****************************************************");
+    	SERIAL.print("Free Heap: ");
+    	SERIAL.print(xPortGetFreeHeapSize());
+    	SERIAL.println(" bytes");
 
-      myDelayMs(10000); // print every 10 seconds
+    	SERIAL.print("Min Heap: ");
+    	SERIAL.print(xPortGetMinimumEverFreeHeapSize());
+    	SERIAL.println(" bytes");
+
+    	SERIAL.println("****************************************************");
+    	SERIAL.println("Task            ABS             %Util");
+    	SERIAL.println("****************************************************");
+
+    	vTaskGetRunTimeStats(ptrTaskList); //save stats to char array
+    	SERIAL.println(ptrTaskList); //prints out already formatted stats
+
+		SERIAL.println("****************************************************");
+		SERIAL.println("Task            State   Prio    Stack   Num     Core" );
+		SERIAL.println("****************************************************");
+
+		vTaskList(ptrTaskList); //save stats to char array
+		SERIAL.println(ptrTaskList); //prints out already formatted stats
+
+		SERIAL.println("****************************************************");
+		SERIAL.println("[Stacks Free Bytes Remaining] ");
+
+		measurement = uxTaskGetStackHighWaterMark( Handle_aTask );
+		SERIAL.print("Thread A: ");
+		SERIAL.println(measurement);
+
+		measurement = uxTaskGetStackHighWaterMark( Handle_bTask );
+		SERIAL.print("Thread B: ");
+		SERIAL.println(measurement);
+
+		measurement = uxTaskGetStackHighWaterMark( Handle_cTask );
+		SERIAL.print("Thread C: ");
+		SERIAL.println(measurement);
+
+		measurement = uxTaskGetStackHighWaterMark( Handle_monitorTask );
+		SERIAL.print("Monitor Stack: ");
+		SERIAL.println(measurement);
+
+		SERIAL.println("****************************************************");
+
     }
 
     // delete ourselves.
@@ -156,12 +214,20 @@ void setup()
   // Create the threads that will be managed by the rtos
   // Sets the stack size and priority of each task
   // Also initializes a handler pointer to each task, which are important to communicate with and retrieve info from tasks
-  xTaskCreate(threadA,     "Task A",       256, NULL, tskIDLE_PRIORITY + 3, &Handle_aTask);
-  xTaskCreate(threadB,     "Task B",       256, NULL, tskIDLE_PRIORITY + 2, &Handle_bTask);
+  xTaskCreate(threadA,     "Task A",       256, NULL, tskIDLE_PRIORITY + 4, &Handle_aTask);
+  xTaskCreate(threadB,     "Task B",       256, NULL, tskIDLE_PRIORITY + 3, &Handle_bTask);
+  xTaskCreate(threadC,     "Task C",       256, NULL, tskIDLE_PRIORITY + 2, &Handle_cTask);
   xTaskCreate(taskMonitor, "Task Monitor", 256, NULL, tskIDLE_PRIORITY + 1, &Handle_monitorTask);
 
   // Start the RTOS, this function will never return and will schedule the tasks.
-	vTaskStartScheduler();
+  vTaskStartScheduler();
+
+  // error scheduler failed to start
+  while(1)
+  {
+	  SERIAL.println("Scheduler Failed! \n");
+	  vNopDelayMS(1000);
+  }
 
 }
 

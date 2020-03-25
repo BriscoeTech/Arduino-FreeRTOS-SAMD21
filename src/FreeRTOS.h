@@ -722,7 +722,7 @@ extern "C" {
 	#define configUSE_MALLOC_FAILED_HOOK 0
 #elif configUSE_MALLOC_FAILED_HOOK != 1
     /* Arduino framework integration */
-    extern void (*vApplicationMallocFailedHook) ( void );
+    extern void (*vApplicationMallocFailedHook) ( void ); // see error_hooks.h
 #endif
 
 #ifndef portPRIVILEGE_BIT
