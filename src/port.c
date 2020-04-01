@@ -26,7 +26,11 @@
  */
 
 /*-----------------------------------------------------------
+ *
+ *      Arduino Arm CM0 port
+ *
  * Implementation of functions defined in portable.h for the ARM CM0 port.
+ * Arduino changes marked by "Arduino framework integration" comments
  *----------------------------------------------------------*/
 
 /* Scheduler includes. */
@@ -168,11 +172,12 @@ void vPortStartFirstTask( void )
 /*-----------------------------------------------------------*/
 
 /*
- * Arduino framework integration
+ * Arduino framework integration                // <-----------------------------------------------------
  */
 void (*rtosSysTick_Handler)(void);
 
-int sysTickHook(void) {
+int sysTickHook(void) 
+{
     if (rtosSysTick_Handler)
         rtosSysTick_Handler();
     return 0; // return zero to keep running the arduino default handler!
@@ -234,7 +239,8 @@ static StackType_t uxTimerTaskStack[ configTIMER_TASK_STACK_DEPTH ];
  */
 BaseType_t xPortStartScheduler( void )
 {
-    /* Arduino framework integration */
+	
+    /* Arduino framework integration */             //<----------------------------------------------------
     rtosSysTick_Handler = &xPortSysTickHandler;
 
 	/* Make PendSV, CallSV and SysTick the same priority as the kernel. */
@@ -257,10 +263,12 @@ BaseType_t xPortStartScheduler( void )
 	functionality by defining configTASK_RETURN_ADDRESS.  Call
 	vTaskSwitchContext() so link time optimisation does not remove the
 	symbol. */
-    /* disabled for Arduino framework integration
-	vTaskSwitchContext();
-	prvTaskExitError();
-    */
+	
+	
+	/* disabled for Arduino framework integration*/  // <----------------------------------------------------- Arduino
+	//vTaskSwitchContext();
+	//prvTaskExitError();
+	
 
 	/* Should not get here! */
 	return 0;

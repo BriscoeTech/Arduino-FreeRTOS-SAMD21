@@ -28,6 +28,7 @@
 //**************************************************************************
 TaskHandle_t Handle_aTask;
 TaskHandle_t Handle_bTask;
+TaskHandle_t Handle_cTask;
 TaskHandle_t Handle_monitorTask;
 
 //**************************************************************************
@@ -87,6 +88,35 @@ static void threadB( void *pvParameters )
 }
 
 //*****************************************************************
+// Create a thread that just crunches alot of numbers
+// This thread should eat up a noticeable amount of processor time
+// this task will run forever
+//*****************************************************************
+volatile double variable;
+static void threadC( void *pvParameters )
+{
+
+  // Initialize the xLastWakeTime variable with the current time.
+  TickType_t lastWakeTime = xTaskGetTickCount();
+
+  SERIAL.println("Thread C: Started");
+
+  while(1)
+  {
+	// do some complicated math to fill up period
+	// creates a duty cycle of processing
+	for(long x=0; x<(5*32000); ++x)
+	{
+		variable *= PI;
+	}
+
+	// will sleep for the rest of this period window
+	myDelayMsUntil(&lastWakeTime, 3000);
+  }
+
+}
+
+//*****************************************************************
 // Task will periodically print out useful information about the tasks running
 // Is a useful tool to help figure out stack sizes being used
 // Run time stats are generated from all task timing collected since startup
@@ -140,6 +170,10 @@ void taskMonitor(void *pvParameters)
 		SERIAL.print("Thread B: ");
 		SERIAL.println(measurement);
 
+		measurement = uxTaskGetStackHighWaterMark( Handle_cTask );
+		SERIAL.print("Thread C: ");
+		SERIAL.println(measurement);
+
 		measurement = uxTaskGetStackHighWaterMark( Handle_monitorTask );
 		SERIAL.print("Monitor Stack: ");
 		SERIAL.println(measurement);
@@ -184,8 +218,9 @@ void setup()
   // Create the threads that will be managed by the rtos
   // Sets the stack size and priority of each task
   // Also initializes a handler pointer to each task, which are important to communicate with and retrieve info from tasks
-  xTaskCreate(threadA,     "Task A",       256, NULL, tskIDLE_PRIORITY + 3, &Handle_aTask);
-  xTaskCreate(threadB,     "Task B",       256, NULL, tskIDLE_PRIORITY + 2, &Handle_bTask);
+  xTaskCreate(threadA,     "Task A",       256, NULL, tskIDLE_PRIORITY + 4, &Handle_aTask);
+  xTaskCreate(threadB,     "Task B",       256, NULL, tskIDLE_PRIORITY + 3, &Handle_bTask);
+  xTaskCreate(threadC,     "Task C",       256, NULL, tskIDLE_PRIORITY + 2, &Handle_cTask);
   xTaskCreate(taskMonitor, "Task Monitor", 256, NULL, tskIDLE_PRIORITY + 1, &Handle_monitorTask);
 
   // Start the RTOS, this function will never return and will schedule the tasks.

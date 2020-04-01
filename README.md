@@ -1,4 +1,4 @@
-###  FreeRTOS V10.2.1 for Arduino Samd21
+###  FreeRTOS V10.2.1 for Arduino Samd21 Boards
 
 ####  This library will allow you to create FreeRtos Projects in the arduino IDE and run them on your Samd21 boards.
 
@@ -21,5 +21,7 @@ c++ intensive projects, or projects that might be fragmenting the heap.
 
 Implementation Guide can be found in: "wrapping memory functions\platform.local.txt"
 
+***************************************************************************************************************
 
-
+Want FreeRtos for the Samd51? Use this other repository
+https://github.com/BriscoeTech/Arduino-FreeRTOS-SAMD51
