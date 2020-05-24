@@ -5,7 +5,7 @@
 // Project is a simple example of how to get FreeRtos running on a SamD21 processor
 // Project can be used as a template to build your projects off of as well
 //
-// This example uses the MemoryFree library by mpflaga, to show how much heap is being used by the rtos and all global objects
+// This example uses the MemoryFree library by mpflaga, to show how much ram is being used by the rtos and all global objects
 // https://github.com/mpflaga/Arduino-MemoryFree
 //**************************************************************************
 
@@ -143,7 +143,7 @@ void setup()
   vNopDelayMS(1000); // prevents usb driver crash on startup, do not omit this
   while (!SERIAL) ;  // Wait for serial terminal to open port before starting program
 
-  SERIAL.print("Heap Remaining : (");
+  SERIAL.print("Ram Remaining : (");
   SERIAL.print( freeMemory() );
   SERIAL.print(" / 32000) bytes  ");
   percentage = ((double)freeMemory() / (double)32000) * 100;
@@ -173,7 +173,7 @@ void setup()
   xTaskCreate(taskMonitor, "Task Monitor", 256, NULL, tskIDLE_PRIORITY + 1, &Handle_monitorTask);
 
 
-  SERIAL.print("Heap Remaining : (");
+  SERIAL.print("Ram Remaining : (");
   SERIAL.print( freeMemory() );
   SERIAL.print(" / 32000) bytes  ");
   percentage = ((double)freeMemory() / (double)32000) * 100;
