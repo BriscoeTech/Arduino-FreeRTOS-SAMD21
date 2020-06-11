@@ -74,7 +74,8 @@ void errorBlink(int errorNumber)
 
 // will delay the processors using nops
 // this is used when the rtos has crashed and we cannot use more advanced timing
-// assert will cause interupts to be disabled and delay() to fail, but this will work
+// assert will cause interrupts to be disabled and delay() to fail, but this will work
+// note this function does not play nice with interrupts apparently, this does not replace delay() which is more interrupt friendly
 void vNopDelayMS(unsigned long millis) 
 {
   unsigned long iterations = millis * configCAL_FACTOR;

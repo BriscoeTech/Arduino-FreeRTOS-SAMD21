@@ -221,9 +221,9 @@ void taskMonitor(void *pvParameters)
 void setup() 
 {
 
-  SERIAL.begin(512000);
+  SERIAL.begin(115200);
 
-  vNopDelayMS(1000); // prevents usb driver crash on startup, do not omit this
+  delay(1000); // prevents usb driver crash on startup, do not omit this
   while (!SERIAL) ;  // Wait for serial terminal to open port before starting program
 
   SERIAL.println("");
@@ -279,7 +279,7 @@ void setup()
   while(1)
   {
 	  SERIAL.println("Scheduler Failed! \n");
-	  vNopDelayMS(1000);
+	  delay(1000);
   }
 
 }
@@ -292,7 +292,7 @@ void loop()
 {
     // Optional commands, can comment/uncomment below
     SERIAL.print("."); //print out dots in terminal, we only do this when the RTOS is in the idle state
-    vNopDelayMS(100);
+    delay(100); //delay is interrupt friendly, unlike vNopDelayMS
 }
 
 
