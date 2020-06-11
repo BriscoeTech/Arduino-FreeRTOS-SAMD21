@@ -434,7 +434,11 @@ uint8_t *puc;
 	}
 }
 
- 
+// non standard contributed feature that can be enabled
+#define ENABLE_CALLOC_REALLOC 0
+
+#if ENABLE_CALLOC_REALLOC
+
 void *pvPortRealloc (void* ptr, size_t _size) 
 { 
   void *retVal = NULL; 
@@ -556,7 +560,9 @@ void * pvPortCalloc(size_t nmemb, size_t _size)
   (void)xTaskResumeAll(); 
   return (void *)ptr; 
 } 
- 
+
+#endif
+
 /*------------------------------------------------------------*/ 
 /*-------------------------WRAPPING---------------------------*/ 
 /*------------------------------------------------------------*/ 
@@ -578,6 +584,8 @@ void __real_free(void *);
  
 /*------------------------------------------------------------*/ 
  
+#if ENABLE_CALLOC_REALLOC
+
 void * __wrap_realloc (void* ptr, size_t _size) 
 { 
 	return pvPortRealloc(ptr, _size); 
@@ -593,3 +601,5 @@ void * __wrap_calloc(size_t nmemb, size_t _size)
 } 
  
 void * __real_calloc(size_t, size_t); 
+
+#endif

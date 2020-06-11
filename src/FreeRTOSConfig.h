@@ -108,6 +108,11 @@ to exclude the API function. */
 #define INCLUDE_vTaskDelay					1
 #define INCLUDE_eTaskGetState				1
 
+/* Arduino framework integration */
+// calibration factor for vNopDelayMS in error_hooks.c
+// used to set accuracy of nopDelayMS function
+// this was experimentally chosen from a samd21 processor at 32khz
+#define configCAL_FACTOR (F_CPU/6000)
 
 /* Arduino framework integration */
 extern void rtosFatalError(void); // see error_hooks.h

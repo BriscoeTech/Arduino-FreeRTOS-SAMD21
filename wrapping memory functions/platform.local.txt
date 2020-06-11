@@ -19,7 +19,7 @@
 # C:\Users\UserName\AppData\Local\Arduino15\packages\adafruit\hardware\samd\1.2.9
 
 #######################################################################
-# Setup Sloaber IDE:
+# Setup Sloeber IDE:
 
 # If using Sloaber Ide, the platform.local.txt file is not implemented or recognised.
 # Follow the manual setup section instead.

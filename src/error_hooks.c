@@ -1,5 +1,6 @@
 
 #include "error_hooks.h"
+#include "FreeRTOSConfig.h" //for configCAL_FACTOR
 
 //************************************************************************
 // global variables
@@ -73,11 +74,15 @@ void errorBlink(int errorNumber)
 
 // will delay the processors using nops
 // this is used when the rtos has crashed and we cannot use more advanced timing
+// assert will cause interupts to be disabled and delay() to fail, but this will work
 void vNopDelayMS(unsigned long millis) 
 {
-	// use the built in arduino delay
-	// this implements noop commands and directly timed right for selected processor
-	delay(millis);
+  unsigned long iterations = millis * configCAL_FACTOR;
+  unsigned long i;
+  for(i = 0; i < iterations; ++i) 
+  {
+    asm volatile("nop\n\t");
+  }
 }
 
 //************************************************************************
