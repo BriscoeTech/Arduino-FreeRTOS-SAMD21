@@ -25,3 +25,14 @@ Implementation Guide can be found in: "wrapping memory functions\platform.local.
 
 ***************************************************************************************************************
 
+Special thanks to these people for your help and guidance, reference material, and hard work on contributions.
+
+Richard Barry, for creating FreeRtos and sharing it with the world
+www.FreeRtos.org
+trlafleur
+drewfish
+sergiotomasello
+godario
+TomasRoj
+feilipu
+greiman
