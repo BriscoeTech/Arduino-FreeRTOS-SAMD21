@@ -115,9 +115,19 @@ to exclude the API function. */
 #define configCAL_FACTOR (F_CPU/6000)
 
 /* Arduino framework integration */
-extern void rtosFatalError(void); // see error_hooks.h
-#define configASSERT( x ) \
-	if( ( x ) == 0 ) { taskDISABLE_INTERRUPTS(); rtosFatalError(); }
+#if 0
+	// disable interrupts and blink error code
+	extern void rtosFatalError(void); // see error_hooks.h
+	#define configASSERT( x ) \
+		if( ( x ) == 0 ) { rtosFatalError(); }
+#else
+	// print a error file and line number out user specified serial port
+	// disable interrupts and blink error code
+	extern void rtosFatalErrorSerial(unsigned long ulLine, const char * const pcFileName); // see error_hooks.h
+	extern const char* removePath(const char* path); // see error_hooks.h
+	#define configASSERT( x ) \
+		if( ( x ) == 0 ) { rtosFatalErrorSerial( __LINE__, removePath(__FILE__) ); }
+#endif
 
 /* Arduino framework integration */
 // article to help wade through and figure out proper interrupt settings:
