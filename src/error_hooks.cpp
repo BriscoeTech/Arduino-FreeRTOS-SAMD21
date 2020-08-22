@@ -65,6 +65,7 @@ void rtosFatalErrorSerial(unsigned long ulLine, const char *pcFileName)
 {
 	if(errorSerial != NULL)
 	{
+		errorSerial->flush();
 		errorSerial->println(F(""));
 		errorSerial->println(F("Fatal Rtos Error"));
 
@@ -75,6 +76,37 @@ void rtosFatalErrorSerial(unsigned long ulLine, const char *pcFileName)
 		errorSerial->println(ulLine);
 
 		// allow serial port to flush
+		errorSerial->flush();
+		delay(100);
+	}
+
+	// proceed the same as other fatal rtos error
+	rtosFatalError();
+}
+
+void rtosFatalErrorSerialPrint(unsigned long ulLine, const char *pcFileName, uint8_t valueA, const char* evaluation, uint8_t valueB)
+{
+	if(errorSerial != NULL)
+	{
+		errorSerial->flush();
+		errorSerial->println(F(""));
+		errorSerial->println(F("Fatal Rtos Error"));
+
+		errorSerial->print(F("File: "));
+		errorSerial->println(pcFileName);
+
+		errorSerial->print(F("Line: "));
+		errorSerial->println(ulLine);
+
+		errorSerial->print(valueA);
+		errorSerial->print(" ");
+		errorSerial->print(evaluation);
+		errorSerial->print(" ");
+		errorSerial->print(valueB);
+		errorSerial->println();
+
+		// allow serial port to flush
+		errorSerial->flush();
 		delay(100);
 	}
 
@@ -92,6 +124,7 @@ void vApplicationMallocFailedHook(void)
 		errorSerial->println(F("Malloc Failed"));
 
 		// allow serial port to flush
+		errorSerial->flush();
 		delay(100);
 	}
   
@@ -112,6 +145,7 @@ void vApplicationStackOverflowHook( TaskHandle_t xTask, char *pcTaskName )
 		errorSerial->println(pcTaskName);
 
 		// allow serial port to flush
+		errorSerial->flush();
 		delay(100);
 	}
 

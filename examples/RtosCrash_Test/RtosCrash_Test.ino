@@ -73,7 +73,8 @@ void endlessRecursion(int l)
 	SERIAL.print(l);
 	SERIAL.print(" ");
 	SERIAL.println(sum);
-
+	SERIAL.flush();
+	
 	myDelayMs(500);
 
 	endlessRecursion(l + 1);
@@ -102,6 +103,7 @@ static void threadA( void *pvParameters )
 			// is also a good test to see if you have wrapping the optional memory feature properly
 			char *memLeak = new char[300];
 			SERIAL.print("L");
+			SERIAL.flush();
 			myDelayMs(500);
 		}
 
@@ -120,6 +122,7 @@ static void threadA( void *pvParameters )
 		for(int x=0; x<100; ++x)
 		{
 			SERIAL.print("A");
+			SERIAL.flush();	   
 			myDelayMs(500);
 		}
 	#endif
@@ -150,6 +153,7 @@ static void threadB( void *pvParameters )
   while(1)
   {
     SERIAL.println("B");
+	SERIAL.flush();			   
     myDelayMs(2000);
   }
 
@@ -161,7 +165,7 @@ static void threadB( void *pvParameters )
 // Run time stats are generated from all task timing collected since startup
 // No easy way yet to clear the run time stats yet
 //*****************************************************************
-static char ptrTaskList[400]; //temporary string bufer for task stats
+static char ptrTaskList[400]; //temporary string buffer for task stats
 
 void taskMonitor(void *pvParameters)
 {
@@ -175,6 +179,8 @@ void taskMonitor(void *pvParameters)
     {
     	myDelayMs(10000); // print every 10 seconds
 
+    	SERIAL.flush();
+		SERIAL.println("");			 
     	SERIAL.println("****************************************************");
     	SERIAL.print("Free Heap: ");
     	SERIAL.print(xPortGetFreeHeapSize());
@@ -183,6 +189,7 @@ void taskMonitor(void *pvParameters)
     	SERIAL.print("Min Heap: ");
     	SERIAL.print(xPortGetMinimumEverFreeHeapSize());
     	SERIAL.println(" bytes");
+    	SERIAL.flush();
 
     	SERIAL.println("****************************************************");
     	SERIAL.println("Task            ABS             %Util");
@@ -190,6 +197,7 @@ void taskMonitor(void *pvParameters)
 
     	vTaskGetRunTimeStats(ptrTaskList); //save stats to char array
     	SERIAL.println(ptrTaskList); //prints out already formatted stats
+    	SERIAL.flush();
 
 		SERIAL.println("****************************************************");
 		SERIAL.println("Task            State   Prio    Stack   Num     Core" );
@@ -197,6 +205,7 @@ void taskMonitor(void *pvParameters)
 
 		vTaskList(ptrTaskList); //save stats to char array
 		SERIAL.println(ptrTaskList); //prints out already formatted stats
+		SERIAL.flush();
 
 		SERIAL.println("****************************************************");
 		SERIAL.println("[Stacks Free Bytes Remaining] ");
@@ -214,6 +223,7 @@ void taskMonitor(void *pvParameters)
 		SERIAL.println(measurement);
 
 		SERIAL.println("****************************************************");
+		SERIAL.flush();
 
     }
 
@@ -239,6 +249,7 @@ void setup()
   SERIAL.println("******************************");
   SERIAL.println("        Program start         ");
   SERIAL.println("******************************");
+  SERIAL.flush();			 
 
   // Set the led the rtos will blink when we have a fatal rtos error
   // RTOS also Needs to know if high/low is the state that turns on the led.
@@ -250,8 +261,8 @@ void setup()
   //               Use the taskMonitor thread to help gauge how much more you need
   vSetErrorLed(ERROR_LED_PIN, ERROR_LED_LIGHTUP_STATE);
 
-  // set the serial port rtos failures and errors are printed to
-  // if not set, these error messages are skipped
+  // sets the serial port to print errors to when the rtos crashes
+  // if this is not set, serial information is not printed by default
   vSetErrorSerial(&SERIAL);
 
   // Create the threads that will be managed by the rtos
@@ -288,10 +299,12 @@ void setup()
   vTaskStartScheduler();
 
   // error scheduler failed to start
+  // should never get here
   while(1)
   {
-	  SERIAL.println("Scheduler Failed! \n");
-	  delay(1000);
+	SERIAL.println("Scheduler Failed! \n");
+	SERIAL.flush();		  
+	delay(1000);
   }
 
 }
@@ -304,8 +317,10 @@ void loop()
 {
     // Optional commands, can comment/uncomment below
     SERIAL.print("."); //print out dots in terminal, we only do this when the RTOS is in the idle state
+	SERIAL.flush();			   
     delay(100); //delay is interrupt friendly, unlike vNopDelayMS
 }
 
 
 //*****************************************************************
+
