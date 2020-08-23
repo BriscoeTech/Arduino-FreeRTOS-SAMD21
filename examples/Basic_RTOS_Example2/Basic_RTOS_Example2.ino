@@ -55,6 +55,24 @@ void myDelayMsUntil(TickType_t *previousWakeTime, int ms)
   vTaskDelayUntil( previousWakeTime, (ms * 1000) / portTICK_PERIOD_US );  
 }
 
+//**************************************************************************
+// Print how much ram is free on the device
+// Useful to see how much ram is available at startup with current heap size settings, and after initializing all classes
+// freeMemory() gives wrong answers after starting the rtos for unknown reasons, only use before rtos start
+//**************************************************************************
+void printRamFree()
+{
+  SERIAL.print("Ram Remaining : (");
+  SERIAL.print( freeMemory() );
+  SERIAL.print(" / ");
+  SERIAL.print(DEVICE_TOTAL_RAM);
+  SERIAL.print(") bytes  ");
+  double percentage = ((double)freeMemory() / (double)DEVICE_TOTAL_RAM) * 100;
+  SERIAL.print( percentage );
+  SERIAL.println("%");
+  SERIAL.flush();
+}
+
 //*****************************************************************
 // Create a thread that prints out A to the screen every two seconds
 // this task will delete its self after printing out afew messages
@@ -173,22 +191,14 @@ void taskMonitor(void *pvParameters)
 
 void setup() 
 {
-  double percentage;
-  
+
   SERIAL.begin(115200);
 
   delay(1000); // prevents usb driver crash on startup, do not omit this
   while (!SERIAL) ;  // Wait for serial terminal to open port before starting program
 
-  SERIAL.print("Ram Remaining : (");
-  SERIAL.print( freeMemory() );
-  SERIAL.print(" / ");
-  SERIAL.print(DEVICE_TOTAL_RAM);
-  SERIAL.print(") bytes  ");
-  percentage = ((double)freeMemory() / (double)DEVICE_TOTAL_RAM) * 100;
-  SERIAL.print( percentage );
-  SERIAL.println("%");
-  SERIAL.flush();
+  // show the amount of ram free at startup
+  printRamFree();
   
   SERIAL.println("");
   SERIAL.println("******************************");
@@ -217,16 +227,8 @@ void setup()
   xTaskCreate(threadB,     "Task B",       256, NULL, tskIDLE_PRIORITY + 2, &Handle_bTask);
   xTaskCreate(taskMonitor, "Task Monitor", 256, NULL, tskIDLE_PRIORITY + 1, &Handle_monitorTask);
 
-
-  SERIAL.print("Ram Remaining : (");
-  SERIAL.print( freeMemory() );
-  SERIAL.print(" / ");
-  SERIAL.print(DEVICE_TOTAL_RAM);
-  SERIAL.print(") bytes  ");
-  percentage = ((double)freeMemory() / (double)DEVICE_TOTAL_RAM) * 100;
-  SERIAL.print( percentage );
-  SERIAL.println("%");
-  
+  // show the amount of ram free after initializations
+  printRamFree();
 
   // Start the RTOS, this function will never return and will schedule the tasks.
   vTaskStartScheduler();
