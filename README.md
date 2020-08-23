@@ -12,6 +12,13 @@ https://github.com/BriscoeTech/Arduino-FreeRTOS-SAMD51
  Adafruit Feather M0
  Atmel Xplained Samd21
 
+***************************************************************************************************************
+
+#### Whats new in the recent versions?
+
+* Added and updated example projects with lessons learned to help you get started setting up a new project.
+* Added optional serial printing when the rtos fails, makes tracking down and diagnosing project problems easier.
+* Added example project demonstrating the most common rtos failures, and how you might detect them.
 
 ***************************************************************************************************************
 
@@ -31,6 +38,7 @@ Richard Barry, for creating FreeRtos and sharing it with the world
 www.FreeRtos.org  
 trlafleur  
 drewfish  
+baekgaard  
 sergiotomasello  
 godario  
 TomasRoj  

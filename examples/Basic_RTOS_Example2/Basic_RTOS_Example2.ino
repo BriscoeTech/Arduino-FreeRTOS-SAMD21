@@ -21,6 +21,8 @@
 
 #define ERROR_LED_LIGHTUP_STATE  HIGH // the state that makes the led light up on your board, either low or high
 
+#define DEVICE_TOTAL_RAM	32000 // bytes of ram for this processor
+
 // Select the serial port the project should use and communicate over
 // Some boards use SerialUSB, some use Serial
 #define SERIAL          SerialUSB //Sparkfun Samd21 Boards
@@ -180,8 +182,10 @@ void setup()
 
   SERIAL.print("Ram Remaining : (");
   SERIAL.print( freeMemory() );
-  SERIAL.print(" / 32000) bytes  ");
-  percentage = ((double)freeMemory() / (double)32000) * 100;
+  SERIAL.print(" / ");
+  SERIAL.print(DEVICE_TOTAL_RAM);
+  SERIAL.print(") bytes  ");
+  percentage = ((double)freeMemory() / (double)DEVICE_TOTAL_RAM) * 100;
   SERIAL.print( percentage );
   SERIAL.println("%");
   SERIAL.flush();
@@ -216,14 +220,16 @@ void setup()
 
   SERIAL.print("Ram Remaining : (");
   SERIAL.print( freeMemory() );
-  SERIAL.print(" / 32000) bytes  ");
-  percentage = ((double)freeMemory() / (double)32000) * 100;
+  SERIAL.print(" / ");
+  SERIAL.print(DEVICE_TOTAL_RAM);
+  SERIAL.print(") bytes  ");
+  percentage = ((double)freeMemory() / (double)DEVICE_TOTAL_RAM) * 100;
   SERIAL.print( percentage );
   SERIAL.println("%");
   
 
   // Start the RTOS, this function will never return and will schedule the tasks.
-	vTaskStartScheduler();
+  vTaskStartScheduler();
 
   // error scheduler failed to start
   // should never get here

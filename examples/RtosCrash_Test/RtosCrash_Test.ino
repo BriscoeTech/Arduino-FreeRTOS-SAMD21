@@ -101,9 +101,14 @@ static void threadA( void *pvParameters )
 			// this is not caught by the rtos by default, is not a rtos malloc failure
 			// enabling the memory wrapping feature will cause library to catch this
 			// is also a good test to see if you have wrapping the optional memory feature properly
-			char *memLeak = new char[300];
 			SERIAL.print("L");
 			SERIAL.flush();
+
+			char *memLeak = new char[300];
+			sprintf(memLeak, "%d", random(0, 10));
+			SERIAL.print(memLeak);
+			SERIAL.flush();
+			
 			myDelayMs(500);
 		}
 
