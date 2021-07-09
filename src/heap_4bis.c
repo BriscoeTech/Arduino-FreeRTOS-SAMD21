@@ -435,7 +435,9 @@ uint8_t *puc;
 }
 
 // non standard contributed feature that can be enabled
+#ifndef ENABLE_CALLOC_REALLOC
 #define ENABLE_CALLOC_REALLOC 0
+#endif
 
 #if ENABLE_CALLOC_REALLOC
 
