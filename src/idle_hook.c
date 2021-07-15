@@ -1,6 +1,8 @@
 
 #include <FreeRTOS.h>
 #include <Arduino.h>
+//Arduino loop as task
+#include "task.h"
 
 uint8_t loopAsTask = 0;
 TaskHandle_t loopHandle;
